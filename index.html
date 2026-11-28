@@ -29,6 +29,7 @@ a{color:inherit;text-decoration:none}
 .links a{transition:color .2s}.links a:hover{color:var(--ink)}
 .nav .btn{margin-left:auto}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border-radius:999px;font-weight:550;font-size:15px;border:1px solid transparent;transition:transform .25s var(--ease),background .2s,box-shadow .25s;white-space:nowrap}
+.btn svg{flex:none}
 .btn:hover{transform:translateY(-1px)}
 .btn-dark{background:var(--ink);color:#fff;box-shadow:0 8px 20px -10px rgba(0,0,0,.6)}
 .btn-dark:hover{background:#26262a}
@@ -153,6 +154,25 @@ footer{border-top:1px solid var(--line);padding:36px 0 48px;color:var(--muted);f
 footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
 footer nav{display:flex;gap:22px}footer a:hover{color:var(--ink)}
 footer .brand{color:var(--ink);font-size:16px}
+/* install dialog */
+.modal{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-end;justify-content:center;padding:12px 12px max(12px,env(safe-area-inset-bottom));visibility:hidden;opacity:0;pointer-events:none;transition:opacity .25s var(--ease),visibility .25s}
+.modal.open{visibility:visible;opacity:1;pointer-events:auto}
+.modal-bg{position:absolute;inset:0;background:rgba(15,15,16,.46);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.sheet{position:relative;background:#fff;width:min(440px,100%);max-height:min(92dvh,640px);overflow:auto;border-radius:28px;padding:22px 22px 20px;box-shadow:0 40px 80px -32px rgba(15,15,16,.55);transform:translateY(16px);transition:transform .3s var(--ease)}
+.modal.open .sheet{transform:none}
+.sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.sheet h2{font-size:26px;max-width:none;letter-spacing:-.035em}
+.sheet-x{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;flex:none;display:grid;place-items:center}
+.sheet-x:hover{background:var(--soft)}
+.sheet-x:focus-visible,.sheet .btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.install-lead{color:var(--muted);font-size:15px;margin-top:10px}
+.install-list{display:flex;flex-direction:column;gap:8px;margin:18px 0;list-style:none}
+.install-list li{background:var(--soft);border-radius:16px;padding:12px 14px}
+.install-list b{display:block;font-size:14px;font-weight:600;letter-spacing:-.01em}
+.install-list span{display:block;color:var(--muted);font-size:13.5px;margin-top:2px;line-height:1.45}
+.sheet .btn{width:100%}
+body.modal-open{overflow:hidden}
+@media (min-width:640px){.modal{align-items:center;padding:24px}.sheet{padding:28px 28px 24px}}
 /* reveal */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .rv.in{opacity:1;transform:none}
@@ -164,7 +184,7 @@ footer .brand{color:var(--ink);font-size:16px}
  .bento,.steps,.plist{grid-template-columns:1fr}.agents{grid-template-columns:1fr 1fr;gap:10px}.acard{padding:18px}.acard .char{--s:44px;margin-bottom:18px}.tile.wide{grid-column:auto}.tile{min-height:0}.steps{gap:28px}
  .privacy{margin:0 8px;border-radius:24px;padding:80px 0}
  .app{height:520px;border-radius:18px;font-size:13px}.thread{padding:6px 16px;gap:16px}.composer{width:calc(100% - 24px);margin-bottom:12px}#typing{display:none}
- .cta .btn{flex:1;min-width:150px}.crew .char{--s:44px!important}.head-row{margin-bottom:32px}
+ .cta{flex-direction:column;align-items:stretch}.cta .btn{width:100%}.crew .char{--s:44px!important}.head-row{margin-bottom:32px}
 }
 </style>
 </head>
@@ -182,12 +202,13 @@ footer .brand{color:var(--ink);font-size:16px}
   <div class="wrap">
     <div class="crew rv" aria-hidden="true"><span class="char" style="--s:48px"><i></i></span><span class="char c2" style="--s:56px"><i></i></span><span class="char c3" style="--s:66px"><i></i></span><span class="char c4" style="--s:56px"><i></i></span><span class="char c5" style="--s:48px"><i></i></span></div>
     <h1 class="rv d1">Your own team of AI agents. <span>Right in your browser.</span></h1>
-    <p class="sub rv d2">Create agents, give each one a name and a face, and chat with them alone or together. Agora AI answers and looks things up on the web when it needs to.</p>
+    <p class="sub rv d2">Create agents, give each one a name and a face, and chat with them alone or together. Agora 1.0 answers and looks things up on the web when it needs to.</p>
     <div class="cta rv d3">
+      <a class="btn btn-dark" href="https://xxnoelw.github.io/agora.bot/" data-install aria-haspopup="dialog" aria-controls="install"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>Get the Agora app</a>
       <a class="btn btn-dark" href="https://xxnoelw.github.io/agora.bot/">Try Agora free</a>
       <a class="btn btn-light" href="#how">How it works</a>
     </div>
-    <p class="note rv d3">No sign-up. No install. Your chats stay on your device.</p>
+    <p class="note rv d3">No sign-up. Install it, or use it in the browser. Your chats stay on your device.</p>
   </div>
 </div>
 
@@ -202,10 +223,10 @@ footer .brand{color:var(--ink);font-size:16px}
       <div class="ag"><span class="char c3"></span>Coach</div>
       <div class="lbl">Groups</div>
       <div class="ag on"><span class="char c5"></span>Science club</div>
-      <div class="foot">Agora AI will search the web on this device</div>
+      <div class="foot">Agora 1.0 will search the web on this device</div>
     </aside>
     <div class="main">
-      <div class="head"><div class="stack"><span class="char"></span><span class="char c2"></span></div><b>Science club</b><small>Agora AI · Scout, Writer</small></div>
+      <div class="head"><div class="stack"><span class="char"></span><span class="char c2"></span></div><b>Science club</b><small>Agora 1.0 · Scout, Writer</small></div>
       <div class="thread">
         <div class="m me"><div class="bub">How do bees make honey?</div></div>
         <div class="m"><span class="char"><i></i></span><div><div class="who">Scout</div><div class="bub">Worker bees collect nectar, pass it from bee to bee to add enzymes, and fan it with their wings until most of the water is gone. Then they seal the cell with wax.<div class="src"><span>Wikipedia</span><span>DuckDuckGo</span></div></div></div></div>
@@ -254,8 +275,8 @@ footer .brand{color:var(--ink);font-size:16px}
         <h3>Connectors</h3><p>Let an agent use your accounts. Keys stay encrypted in the browser and the model never sees them.</p>
       </div>
       <div class="tile rv d1">
-        <div class="gpu">&gt; WebGPU <b>found</b><br>&gt; Agora AI <b>running locally</b><br>&gt; server calls: 0</div>
-        <h3>Runs on your computer</h3><p>With WebGPU, Agora AI runs locally. A key in Settings lets it connect online instead.</p>
+        <div class="gpu">&gt; WebGPU <b>found</b><br>&gt; Agora 1.0 <b>running locally</b><br>&gt; server calls: 0</div>
+        <h3>Runs on your computer</h3><p>With WebGPU, Agora 1.0 runs locally. A key in Settings lets it connect online instead.</p>
       </div>
       <div class="tile rv d2">
         <div class="chipset"><span class="char c7" style="--s:84px"><i></i></span></div>
@@ -284,7 +305,7 @@ footer .brand{color:var(--ink);font-size:16px}
     <div class="plist">
       <div class="rv"><h3>Chats stay local</h3><p>Agents and conversations are saved in this browser only.</p></div>
       <div class="rv d1"><h3>Encrypted keys</h3><p>Connector keys are encrypted and hidden from the chat model.</p></div>
-      <div class="rv d2"><h3>Local AI</h3><p>With WebGPU, Agora AI runs on your own computer.</p></div>
+      <div class="rv d2"><h3>Local AI</h3><p>With WebGPU, Agora 1.0 runs on your own computer.</p></div>
       <div class="rv d3"><h3>Keys are optional</h3><p>You only need a key if you want to connect online.</p></div>
     </div>
   </div>
@@ -295,8 +316,8 @@ footer .brand{color:var(--ink);font-size:16px}
     <div style="text-align:center"><p class="kicker rv" style="justify-content:center">FAQ</p><h2 class="rv d1" style="margin:0 auto">Questions, answered.</h2></div>
     <div class="faq">
       <details class="rv"><summary>Do I need an account?</summary><p>No. Open Agora, create an agent and start chatting. Everything is stored in your browser.</p></details>
-      <details class="rv"><summary>Do I need an API key?</summary><p>No. On a computer with WebGPU, Agora AI runs locally, and web search needs no key. A key in Settings is optional.</p></details>
-      <details class="rv"><summary>Does it work on my phone?</summary><p>Many phones don't have WebGPU, so the local AI may not run there. Search links still come back, and a key in Settings lets Agora AI answer online.</p></details>
+      <details class="rv"><summary>Do I need an API key?</summary><p>No. On a computer with WebGPU, Agora 1.0 runs locally, and web search needs no key. A key in Settings is optional.</p></details>
+      <details class="rv"><summary>Does it work on my phone?</summary><p>Many phones don't have WebGPU, so the local AI may not run there. Search links still come back, and a key in Settings lets Agora 1.0 answer online.</p></details>
       <details class="rv"><summary>Where does web search look?</summary><p>Wikipedia, DuckDuckGo quick answers, and public pages read through the Jina reader. A reply lists a source only when it used it.</p></details>
       <details class="rv"><summary>Is Agora finished?</summary><p>Agora is in beta, so new features are still on the way.</p></details>
     </div>
@@ -308,7 +329,10 @@ footer .brand{color:var(--ink);font-size:16px}
     <div class="crew rv" aria-hidden="true"><span class="char c6" style="--s:48px"><i></i></span><span class="char c7" style="--s:58px"><i></i></span><span class="char c8" style="--s:48px"><i></i></span></div>
     <h2 class="rv d1">Meet your new team today.</h2>
     <p class="lead rv d2">Free to try, right in your browser.</p>
-    <div class="cta rv d3"><a class="btn btn-dark" href="https://xxnoelw.github.io/agora.bot/">Try Agora free</a></div>
+    <div class="cta rv d3">
+      <a class="btn btn-dark" href="https://xxnoelw.github.io/agora.bot/" data-install aria-haspopup="dialog" aria-controls="install"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>Get the Agora app</a>
+      <a class="btn btn-light" href="https://xxnoelw.github.io/agora.bot/">Try Agora free</a>
+    </div>
   </div>
 </section>
 </main>
@@ -321,6 +345,23 @@ footer .brand{color:var(--ink);font-size:16px}
   </div>
 </footer>
 
+<div class="modal" id="install" role="dialog" aria-modal="true" aria-labelledby="install-title" aria-describedby="install-lead" aria-hidden="true" inert>
+  <div class="modal-bg" data-close></div>
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="install-title">Get the Agora app</h2>
+      <button class="sheet-x" type="button" data-close aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <p class="install-lead" id="install-lead">Agora 1.0 installs from the browser. Open the app, then add it to your home screen or desktop.</p>
+    <ul class="install-list">
+      <li><b>Android, Chrome, or Edge</b><span>Use “Install app” in the menu or address bar.</span></li>
+      <li><b>iPhone, Safari</b><span>Use Share, then Add to Home Screen.</span></li>
+      <li><b>Desktop Chrome or Edge</b><span>Use the install icon in the address bar.</span></li>
+    </ul>
+    <a class="btn btn-dark" href="https://xxnoelw.github.io/agora.bot/">Open the Agora app</a>
+  </div>
+</div>
+
 <script>
 const nav=document.getElementById('nav');addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>8),{passive:true});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
@@ -328,6 +369,22 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 const app=document.getElementById('app'),ms=[...document.querySelectorAll('.thread .m')];
 new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){app.classList.add('in');ms.forEach((m,i)=>setTimeout(()=>m.classList.add('show'),500+i*850));o.disconnect()}},{threshold:.15}).observe(app);
 if(matchMedia('(prefers-reduced-motion: reduce)').matches){ms.forEach(m=>m.classList.add('show'));document.querySelectorAll('.rv').forEach(e=>e.classList.add('in'))}
+const install=document.getElementById('install');
+let installFrom=null;
+const openInstall=from=>{installFrom=from;install.classList.add('open');install.removeAttribute('inert');install.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');install.querySelector('.sheet-x').focus()};
+const closeInstall=()=>{install.classList.remove('open');install.setAttribute('inert','');install.setAttribute('aria-hidden','true');document.body.classList.remove('modal-open');if(installFrom)installFrom.focus()};
+document.querySelectorAll('[data-install]').forEach(el=>el.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0)return;e.preventDefault();openInstall(el)}));
+install.addEventListener('click',e=>{if(e.target.closest('[data-close]'))closeInstall()});
+addEventListener('keydown',e=>{
+  if(!install.classList.contains('open'))return;
+  if(e.key==='Escape'){e.preventDefault();closeInstall();return}
+  if(e.key!=='Tab')return;
+  const f=[...install.querySelectorAll('button,[href]')];
+  if(!f.length)return;
+  const first=f[0],last=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+});
 </script>
 </body>
 </html>
